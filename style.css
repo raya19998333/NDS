@@ -1035,9 +1035,16 @@ body {
 
 .meter-reading-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: var(--spacing-xl);
     margin-bottom: var(--spacing-xl);
+}
+
+@media (max-width: 640px) {
+    .meter-reading-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+    }
 }
 
 .meter-card {
@@ -1046,6 +1053,9 @@ body {
     padding: var(--spacing-lg);
     border: 2px solid var(--gray-200);
     transition: all var(--transition-base);
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .meter-card:hover {
@@ -1073,6 +1083,12 @@ body {
 
 .meter-body .form-group {
     margin-bottom: var(--spacing-md);
+}
+
+.meter-body .form-group input,
+.meter-body .form-group input[type="file"] {
+    width: 100%;
+    max-width: 100%;
 }
 
 .previous-reading {
@@ -1617,6 +1633,7 @@ body {
     
     .meter-reading-grid {
         grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
     }
     
     .header {
@@ -1657,6 +1674,66 @@ body {
     
     .bill-actions .btn {
         width: 100%;
+    }
+    
+    /* Meter Reading Mobile Fixes */
+    .meter-reading-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+    
+    .meter-card {
+        padding: var(--spacing-md);
+    }
+    
+    .meter-header {
+        flex-direction: row;
+        align-items: center;
+    }
+    
+    .meter-header i {
+        font-size: 1.25rem;
+    }
+    
+    .meter-header h4 {
+        font-size: 1rem;
+    }
+    
+    .previous-reading {
+        flex-direction: column;
+        gap: var(--spacing-xs);
+        text-align: center;
+    }
+    
+    .card-header {
+        padding: var(--spacing-md) var(--spacing-lg);
+    }
+    
+    .card-header h3 {
+        font-size: 1.1rem;
+    }
+}
+
+/* Extra responsive for very small screens */
+@media (max-width: 360px) {
+    .meter-reading-grid {
+        gap: var(--spacing-sm);
+    }
+    
+    .meter-card {
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        font-size: 0.9rem;
+        padding: var(--spacing-sm);
+    }
+    
+    .btn {
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: 0.9rem;
     }
 }
 
