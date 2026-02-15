@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NAMA Services - Utility Management Portal</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Chart.js for consumption analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Mobile Menu Toggle -->
+    <div class="mobile-menu-toggle" id="mobileMenuToggle">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="fas fa-bolt"></i>
+                <span>NAMA</span>
+            </div>
+            <div class="close-sidebar" id="closeSidebar">
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active" data-section="dashboard">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-item" data-section="service-request">
+                <i class="fas fa-clipboard-list"></i>
+                <span>Service Requests</span>
+            </a>
+            <a href="#" class="nav-item" data-section="meter-reading">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Meter Reading</span>
+            </a>
+            <a href="#" class="nav-item" data-section="bills">
+                <i class="fas fa-file-invoice-dollar"></i>
+                <span>Bills & Reports</span>
+            </a>
+            <a href="#" class="nav-item" data-section="notifications">
+                <i class="fas fa-bell"></i>
+                <span>Notifications</span>
+                <span class="notification-badge">3</span>
+            </a>
+            <a href="#" class="nav-item" data-section="track-requests">
+                <i class="fas fa-search"></i>
+                <span>Track Requests</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-info">
+                    <div class="user-name">Raya Ali Al Amri</div>
+                    <div class="user-id">Account: 123456789</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <h1 class="page-title">Dashboard</h1>
+                <p class="page-subtitle">Welcome back! Here's your usage overview</p>
+            </div>
+            <div class="header-right">
+                <button class="btn-icon" id="languageToggle">
+                    <i class="fas fa-language"></i>
+                </button>
+                <button class="btn-icon" id="notificationIcon">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-dot"></span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Dashboard Section -->
+        <section class="section active" id="dashboard">
+            <!-- Quick Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card balance-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-label">Current Balance</div>
+                        <div class="stat-value">OMR 45.80</div>
+                        <div class="stat-status overdue">Payment Overdue</div>
+                    </div>
+                    <button class="btn-pay">Pay Now</button>
+                </div>
+
+                <div class="stat-card electricity-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-label">Electricity This Month</div>
+                        <div class="stat-value">458 kWh</div>
+                        <div class="stat-trend up">
+                            <i class="fas fa-arrow-up"></i> 12% vs last month
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card water-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-tint"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-label">Water This Month</div>
+                        <div class="stat-value">12.5 m³</div>
+                        <div class="stat-trend down">
+                            <i class="fas fa-arrow-down"></i> 5% vs last month
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card service-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-label">Active Requests</div>
+                        <div class="stat-value">2</div>
+                        <div class="stat-status pending">In Progress</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alerts Section -->
+            <div class="alerts-container">
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div class="alert-content">
+                        <strong>Bill Payment Due</strong>
+                        <p>Your electricity bill of OMR 45.80 is due on March 15, 2024</p>
+                    </div>
+                    <button class="btn-close-alert">×</button>
+                </div>
+            </div>
+
+            <!-- Consumption Analytics -->
+            <div class="content-grid">
+                <div class="card chart-card">
+                    <div class="card-header">
+                        <h3>Electricity Consumption</h3>
+                        <select class="period-selector" id="electricityPeriod">
+                            <option value="week">Last 7 Days</option>
+                            <option value="month" selected>This Month</option>
+                            <option value="year">This Year</option>
+                        </select>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="electricityChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="card chart-card">
+                    <div class="card-header">
+                        <h3>Water Consumption</h3>
+                        <select class="period-selector" id="waterPeriod">
+                            <option value="week">Last 7 Days</option>
+                            <option value="month" selected>This Month</option>
+                            <option value="year">This Year</option>
+                        </select>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="waterChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Transactions -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>Recent Transactions</h3>
+                    <a href="#" class="btn-link">View All</a>
+                </div>
+                <div class="card-body">
+                    <div class="transaction-list">
+                        <div class="transaction-item">
+                            <div class="transaction-icon electricity">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <div class="transaction-details">
+                                <div class="transaction-title">Electricity Bill - January 2024</div>
+                                <div class="transaction-date">Paid on Feb 10, 2024</div>
+                            </div>
+                            <div class="transaction-amount paid">-OMR 38.50</div>
+                        </div>
+                        <div class="transaction-item">
+                            <div class="transaction-icon water">
+                                <i class="fas fa-tint"></i>
+                            </div>
+                            <div class="transaction-details">
+                                <div class="transaction-title">Water Bill - January 2024</div>
+                                <div class="transaction-date">Paid on Feb 10, 2024</div>
+                            </div>
+                            <div class="transaction-amount paid">-OMR 15.20</div>
+                        </div>
+                        <div class="transaction-item">
+                            <div class="transaction-icon service">
+                                <i class="fas fa-tools"></i>
+                            </div>
+                            <div class="transaction-details">
+                                <div class="transaction-title">Maintenance Service Fee</div>
+                                <div class="transaction-date">Paid on Jan 28, 2024</div>
+                            </div>
+                            <div class="transaction-amount paid">-OMR 10.00</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Service Request Section -->
+        <section class="section" id="service-request">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Submit Service Request</h3>
+                    <p class="card-subtitle">Request new services or report issues</p>
+                </div>
+                <div class="card-body">
+                    <form id="serviceRequestForm" class="service-form">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="serviceType">Service Type *</label>
+                                <select id="serviceType" required>
+                                    <option value="">Select Service Type</option>
+                                    <option value="new-connection">New Connection</option>
+                                    <option value="disconnection">Disconnection</option>
+                                    <option value="reconnection">Reconnection</option>
+                                    <option value="maintenance">Maintenance Request</option>
+                                    <option value="meter-issue">Meter Issue</option>
+                                    <option value="billing-inquiry">Billing Inquiry</option>
+                                    <option value="other">Other</option>
+                                </select>
+                                <span class="error-message"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="utilityType">Utility Type *</label>
+                                <select id="utilityType" required>
+                                    <option value="">Select Utility</option>
+                                    <option value="electricity">Electricity</option>
+                                    <option value="water">Water</option>
+                                    <option value="both">Both</option>
+                                </select>
+                                <span class="error-message"></span>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="propertyAddress">Property Address *</label>
+                                <input type="text" id="propertyAddress" placeholder="Enter your property address" required>
+                                <span class="error-message"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="contactPhone">Contact Phone *</label>
+                                <input type="tel" id="contactPhone" placeholder="+968 XXXX XXXX" required>
+                                <span class="error-message"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="preferredDate">Preferred Date</label>
+                                <input type="date" id="preferredDate">
+                                <span class="error-message"></span>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="requestDescription">Description *</label>
+                                <textarea id="requestDescription" rows="4" placeholder="Provide details about your request..." required></textarea>
+                                <span class="error-message"></span>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="attachments">Attachments (Optional)</label>
+                                <div class="file-upload">
+                                    <input type="file" id="attachments" multiple accept="image/*,.pdf">
+                                    <div class="file-upload-label">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                        <span>Click to upload or drag and drop</span>
+                                        <small>PNG, JPG, PDF (Max 5MB each)</small>
+                                    </div>
+                                </div>
+                                <div id="fileList" class="file-list"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" id="resetRequestForm">Reset</button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i> Submit Request
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Success Modal -->
+            <div class="modal" id="successModal">
+                <div class="modal-content">
+                    <div class="modal-icon success">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>Request Submitted Successfully!</h3>
+                    <p>Your request ID is: <strong id="requestId"></strong></p>
+                    <p>We'll contact you within 24-48 hours.</p>
+                    <button class="btn btn-primary" id="closeModal">Close</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Meter Reading Section -->
+        <section class="section" id="meter-reading">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Submit Meter Reading</h3>
+                    <p class="card-subtitle">Submit your monthly meter readings for accurate billing</p>
+                </div>
+                <div class="card-body">
+                    <form id="meterReadingForm" class="meter-form">
+                        <div class="meter-reading-grid">
+                            <!-- Electricity Meter -->
+                            <div class="meter-card">
+                                <div class="meter-header">
+                                    <i class="fas fa-bolt"></i>
+                                    <h4>Electricity Meter</h4>
+                                </div>
+                                <div class="meter-body">
+                                    <div class="form-group">
+                                        <label for="electricityMeterNumber">Meter Number</label>
+                                        <input type="text" id="electricityMeterNumber" value="EL-123456" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="electricityReading">Current Reading (kWh) *</label>
+                                        <input type="number" id="electricityReading" placeholder="Enter reading" required min="0">
+                                        <span class="error-message"></span>
+                                    </div>
+                                    <div class="previous-reading">
+                                        <span>Previous Reading:</span>
+                                        <strong>12,450 kWh</strong>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="electricityPhoto">Meter Photo (Optional)</label>
+                                        <input type="file" id="electricityPhoto" accept="image/*">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Water Meter -->
+                            <div class="meter-card">
+                                <div class="meter-header">
+                                    <i class="fas fa-tint"></i>
+                                    <h4>Water Meter</h4>
+                                </div>
+                                <div class="meter-body">
+                                    <div class="form-group">
+                                        <label for="waterMeterNumber">Meter Number</label>
+                                        <input type="text" id="waterMeterNumber" value="WA-789012" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="waterReading">Current Reading (m³) *</label>
+                                        <input type="number" id="waterReading" placeholder="Enter reading" required min="0">
+                                        <span class="error-message"></span>
+                                    </div>
+                                    <div class="previous-reading">
+                                        <span>Previous Reading:</span>
+                                        <strong>1,250 m³</strong>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="waterPhoto">Meter Photo (Optional)</label>
+                                        <input type="file" id="waterPhoto" accept="image/*">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" id="resetMeterForm">Reset</button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-check"></i> Submit Readings
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Reading History -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>Reading History</h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Electricity (kWh)</th>
+                                    <th>Water (m³)</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Feb 15, 2024</td>
+                                    <td>12,450</td>
+                                    <td>1,250</td>
+                                    <td><span class="status-badge verified">Verified</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Jan 15, 2024</td>
+                                    <td>12,000</td>
+                                    <td>1,238</td>
+                                    <td><span class="status-badge verified">Verified</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Dec 15, 2023</td>
+                                    <td>11,550</td>
+                                    <td>1,225</td>
+                                    <td><span class="status-badge verified">Verified</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bills & Reports Section -->
+        <section class="section" id="bills">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Bills & Invoices</h3>
+                    <div class="header-actions">
+                        <select class="filter-select">
+                            <option value="all">All Bills</option>
+                            <option value="paid">Paid</option>
+                            <option value="unpaid">Unpaid</option>
+                            <option value="overdue">Overdue</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="bills-grid">
+                        <div class="bill-card unpaid">
+                            <div class="bill-header">
+                                <div class="bill-type">
+                                    <i class="fas fa-bolt"></i>
+                                    <span>Electricity</span>
+                                </div>
+                                <span class="bill-status unpaid">Unpaid</span>
+                            </div>
+                            <div class="bill-body">
+                                <div class="bill-period">February 2024</div>
+                                <div class="bill-amount">OMR 45.80</div>
+                                <div class="bill-due">Due: Mar 15, 2024</div>
+                            </div>
+                            <div class="bill-actions">
+                                <button class="btn btn-sm btn-secondary" onclick="downloadBill('FEB2024-ELEC')">
+                                    <i class="fas fa-download"></i> Download
+                                </button>
+                                <button class="btn btn-sm btn-primary">
+                                    <i class="fas fa-credit-card"></i> Pay Now
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="bill-card paid">
+                            <div class="bill-header">
+                                <div class="bill-type">
+                                    <i class="fas fa-bolt"></i>
+                                    <span>Electricity</span>
+                                </div>
+                                <span class="bill-status paid">Paid</span>
+                            </div>
+                            <div class="bill-body">
+                                <div class="bill-period">January 2024</div>
+                                <div class="bill-amount">OMR 38.50</div>
+                                <div class="bill-due">Paid on: Feb 10, 2024</div>
+                            </div>
+                            <div class="bill-actions">
+                                <button class="btn btn-sm btn-secondary" onclick="downloadBill('JAN2024-ELEC')">
+                                    <i class="fas fa-download"></i> Download
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="bill-card paid">
+                            <div class="bill-header">
+                                <div class="bill-type">
+                                    <i class="fas fa-tint"></i>
+                                    <span>Water</span>
+                                </div>
+                                <span class="bill-status paid">Paid</span>
+                            </div>
+                            <div class="bill-body">
+                                <div class="bill-period">January 2024</div>
+                                <div class="bill-amount">OMR 15.20</div>
+                                <div class="bill-due">Paid on: Feb 10, 2024</div>
+                            </div>
+                            <div class="bill-actions">
+                                <button class="btn btn-sm btn-secondary" onclick="downloadBill('JAN2024-WATER')">
+                                    <i class="fas fa-download"></i> Download
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Usage Report -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>Annual Usage Report</h3>
+                    <button class="btn btn-sm btn-secondary">
+                        <i class="fas fa-file-pdf"></i> Export Report
+                    </button>
+                </div>
+                <div class="card-body">
+                    <canvas id="annualUsageChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Notifications Section -->
+        <section class="section" id="notifications">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Notifications</h3>
+                    <button class="btn-link" id="markAllRead">Mark all as read</button>
+                </div>
+                <div class="card-body">
+                    <div class="notifications-list">
+                        <div class="notification-item unread">
+                            <div class="notification-icon warning">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </div>
+                            <div class="notification-content">
+                                <div class="notification-title">Bill Payment Due</div>
+                                <div class="notification-message">Your electricity bill of OMR 45.80 is due on March 15, 2024</div>
+                                <div class="notification-time">2 hours ago</div>
+                            </div>
+                        </div>
+
+                        <div class="notification-item unread">
+                            <div class="notification-icon info">
+                                <i class="fas fa-info-circle"></i>
+                            </div>
+                            <div class="notification-content">
+                                <div class="notification-title">Maintenance Scheduled</div>
+                                <div class="notification-message">Scheduled maintenance in your area on March 20, 2024 from 9 AM to 12 PM</div>
+                                <div class="notification-time">1 day ago</div>
+                            </div>
+                        </div>
+
+                        <div class="notification-item unread">
+                            <div class="notification-icon success">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="notification-content">
+                                <div class="notification-title">Service Request Completed</div>
+                                <div class="notification-message">Your maintenance request #SR-2024-001 has been completed</div>
+                                <div class="notification-time">2 days ago</div>
+                            </div>
+                        </div>
+
+                        <div class="notification-item">
+                            <div class="notification-icon info">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <div class="notification-content">
+                                <div class="notification-title">Energy Saving Tip</div>
+                                <div class="notification-message">Your consumption is 15% higher than last month. Check our energy saving tips!</div>
+                                <div class="notification-time">3 days ago</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Track Requests Section -->
+        <section class="section" id="track-requests">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Track Service Requests</h3>
+                </div>
+                <div class="card-body">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search by request ID or description..." id="searchRequests">
+                    </div>
+
+                    <div class="requests-list">
+                        <div class="request-item">
+                            <div class="request-header">
+                                <div class="request-id">#SR-2024-003</div>
+                                <span class="status-badge in-progress">In Progress</span>
+                            </div>
+                            <div class="request-body">
+                                <h4>Meter Issue - Electricity</h4>
+                                <p>Reported irregular readings on electricity meter</p>
+                                <div class="request-meta">
+                                    <span><i class="fas fa-calendar"></i> Submitted: Feb 28, 2024</span>
+                                    <span><i class="fas fa-clock"></i> Expected: Mar 5, 2024</span>
+                                </div>
+                            </div>
+                            <div class="request-timeline">
+                                <div class="timeline-item completed">
+                                    <div class="timeline-dot"></div>
+                                    <div class="timeline-content">
+                                        <strong>Request Received</strong>
+                                        <span>Feb 28, 2024 10:30 AM</span>
+                                    </div>
+                                </div>
+                                <div class="timeline-item completed">
+                                    <div class="timeline-dot"></div>
+                                    <div class="timeline-content">
+                                        <strong>Assigned to Technician</strong>
+                                        <span>Feb 28, 2024 2:15 PM</span>
+                                    </div>
+                                </div>
+                                <div class="timeline-item active">
+                                    <div class="timeline-dot"></div>
+                                    <div class="timeline-content">
+                                        <strong>Site Inspection</strong>
+                                        <span>Scheduled for Mar 2, 2024</span>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-dot"></div>
+                                    <div class="timeline-content">
+                                        <strong>Resolution</strong>
+                                        <span>Pending</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="request-item">
+                            <div class="request-header">
+                                <div class="request-id">#SR-2024-002</div>
+                                <span class="status-badge pending">Pending Review</span>
+                            </div>
+                            <div class="request-body">
+                                <h4>Billing Inquiry - Water</h4>
+                                <p>Question about last month's water bill charges</p>
+                                <div class="request-meta">
+                                    <span><i class="fas fa-calendar"></i> Submitted: Feb 25, 2024</span>
+                                    <span><i class="fas fa-clock"></i> Expected: Mar 3, 2024</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="request-item">
+                            <div class="request-header">
+                                <div class="request-id">#SR-2024-001</div>
+                                <span class="status-badge completed">Completed</span>
+                            </div>
+                            <div class="request-body">
+                                <h4>Maintenance Request - Electricity</h4>
+                                <p>Circuit breaker maintenance and inspection</p>
+                                <div class="request-meta">
+                                    <span><i class="fas fa-calendar"></i> Submitted: Feb 10, 2024</span>
+                                    <span><i class="fas fa-check"></i> Completed: Feb 18, 2024</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
